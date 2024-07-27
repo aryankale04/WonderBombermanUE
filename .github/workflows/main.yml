@@ -23,7 +23,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y clang build-essential
 
-    - name: Install Unreal Engine
+    - name: Set up Unreal Engine
       env:
         GH_PAT: ${{ secrets.GH_PAT }}
       run: |
@@ -35,15 +35,15 @@ jobs:
 
     - name: Build Unreal Project
       run: |
-        cd /path/to/your/UnrealProject
+        cd ${{ github.workspace }}
         /path/to/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh BuildCookRun \
-          -project=/path/to/your/UnrealProject/YourProject.uproject \
+          -project=${{ github.workspace }}/IKABombermanUE.uproject \
           -noP4 -platform=Linux -clientconfig=Development -serverconfig=Development \
           -cook -build -stage -pak -archive \
-          -archivedirectory=/path/to/output/directory
+          -archivedirectory=${{ github.workspace }}/output
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Build-Output
-        path: /path/to/output/directory  # Adjust output path as needed
+        path: ${{ github.workspace }}/output
