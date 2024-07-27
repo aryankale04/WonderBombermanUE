@@ -21,9 +21,7 @@ jobs:
     - name: Install prerequisites
       run: |
         sudo apt-get update
-        sudo apt-get install -y clang-10
-        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 100
-        sudo apt-get install -y build-essential
+        sudo apt-get install -y clang build-essential
 
     - name: Install Unreal Engine
       run: |
@@ -46,4 +44,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Build-Output
-        path: /path/to/output/directory
+        path: /path/to/output/directory  # Adjust output path as needed
