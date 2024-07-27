@@ -24,8 +24,10 @@ jobs:
         sudo apt-get install -y clang build-essential
 
     - name: Install Unreal Engine
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
       run: |
-        git clone --depth=1 -b 4.26 https://github.com/EpicGames/UnrealEngine.git
+        git clone --depth=1 -b 4.26 https://$GH_PAT@github.com/EpicGames/UnrealEngine.git
         cd UnrealEngine
         ./Setup.sh
         ./GenerateProjectFiles.sh
