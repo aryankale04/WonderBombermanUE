@@ -20,11 +20,12 @@ jobs:
 
     - name: Set up Unreal Engine Environment
       run: |
-        choco install unrealengine
+        # Replace with steps to download or configure Unreal Engine if necessary
+        echo "Assuming Unreal Engine is pre-installed or set up manually"
 
     - name: Build Unreal Project
       run: |
-        & "C:\Program Files\Epic Games\UE_4.26\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun ^
+        & "C:\Path\To\UnrealEngine\Engine\Build\BatchFiles\RunUAT.bat" BuildCookRun ^
           -project="$(Build.SourcesDirectory)\IKABombermanUE.uproject" ^
           -noP4 -platform=Win64 -clientconfig=Development -serverconfig=Development ^
           -cook -build -stage -pak -archive ^
