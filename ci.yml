@@ -1,0 +1,50 @@
+name: Unreal Engine CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        lfs: true
+
+    - name: Install prerequisites
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y clang-10
+        sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-10 100
+        sudo apt-get install -y build-essential
+
+    - name: Install Unreal Engine
+      run: |
+        git clone --depth=1 -b 4.26 https://github.com/EpicGames/UnrealEngine.git
+        cd UnrealEngine
+        ./Setup.sh
+        ./GenerateProjectFiles.sh
+        make
+
+    - name: Build Unreal Project
+      run: |
+        cd /path/to/your/UnrealProject
+        /path/to/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh BuildCookRun \
+          -project=/path/to/your/UnrealProject/YourProject.uproject \
+          -noP4 -platform=Linux -clientconfig=Development -serverconfig=Development \
+          -cook -build -stage -pak -archive \
+          -archivedirectory=/path/to/output/directory
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Build-Output
+        path: /path/to/output/directory
+
